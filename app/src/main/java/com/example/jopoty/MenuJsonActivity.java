@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -15,6 +16,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+
+import java.util.ArrayList;
 
 public class MenuJsonActivity extends AppCompatActivity {
     private static final String TAG = "MenuJsonActivity";
@@ -30,6 +33,7 @@ public class MenuJsonActivity extends AppCompatActivity {
     protected void getMenu(final Context context) {
         showSimpleProgressDialog(context, "Loading...", "Fetching Json", false);
         final TextView textView = (TextView) findViewById(R.id.response);
+        final ListView listView = (ListView) findViewById(R.id.menu);
         Log.v(TAG, "getMenu");
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://192.168.1.204:5544";
@@ -42,6 +46,10 @@ public class MenuJsonActivity extends AppCompatActivity {
                         Log.v(TAG, "onResponse");
                         Log.v(TAG, "Blad Apki");
                         textView.setText("Response is: " + response.toString().substring(0, 500));
+                        removeSimpleProgressDialog();
+                        ArrayList<MenuModel> menuModelArrayList = getInfo(response);
+                        MenuAdapter menuAdapter = new MenuAdapter(context, menuModelArrayList);
+                        listView.setAdapter(menuAdapter);
                     }
                 },
                 new Response.ErrorListener() {
@@ -55,6 +63,11 @@ public class MenuJsonActivity extends AppCompatActivity {
         );
         Log.v(TAG, "queue.add");
         queue.add(jsonArrayRequest);
+    }
+
+    protected ArrayList<MenuModel> getInfo(JSONArray response){
+        ArrayList<MenuModel> listaMenu = new ArrayList<MenuModel>();
+        return listaMenu;
     }
 
     public static void showSimpleProgressDialog(Context context, String title,
