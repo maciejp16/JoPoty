@@ -8,11 +8,11 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
 
     public void showAdultMenu (View view) {
-        Intent intent = new Intent(this, MenuActivity.class);
+        Intent intent = new Intent(this, MenuJsonActivity.class);
         startActivity(intent);
     }
     public void showKidsMenu (View view) {
-        Intent intent = new Intent(this, KidsActivity.class);
+        Intent intent = new Intent(this, MenuJsonActivity.class);
         startActivity(intent);
     }
 
